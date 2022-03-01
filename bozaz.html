@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #report {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+
+      }
+
+
+
+      #report tr:hover {
+        background-color: #ddd;
+      }
+    #report tr,th{
+        height:45px;
+
+    }
+      #report th {
+       
+        text-align: left;
+      }
+      #myForm {
+        margin-left: 40px;
+      }
+   .a{
+       display: flex;
+       justify-content: space-between;
+   }
+   .b{
+      height: 10%;
+      width: 60%;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+      
+      margin:60px 0px 0px 40px;
+   }
+    </style>
+  </head>
+  <body>
+      <div class="a">
+    <form id="myForm">
+        <h4>Category</h4>
+      <select id="name" style="width: 200px; height: 40px;">
+          <option value="Home appliance" style="width: 200px; height: 40px;">Home Appliance</option>
+          <option value="Electronics" style="width: 200px; height: 40px;">Electronics</option>
+          <option value="Furniture" style="width: 200px; height: 40px;">Furniture</option>
+          <option value="Mobiles" style="width: 200px; height: 40px;">Mobiles</option>
+      </select> 
+      <h4>title</h4>
+      <input id="title" type="text" style="width: 200px; height: 40px;" placeholder="Title"/>
+      <h4>Description</h4>
+      <input id="description" type="text" style="width: 200px; height: 40px;" placeholder="Description"/>
+      <h4>price</h4>
+      <input id="price" type="number" style="width: 200px; height: 40px;" placeholder="Price Details"/>
+      
+      <br>
+      <input type="submit" value="Add" style="width: 200px; height: 40px;margin-top: 40px;background-color: blue;color: white;"/>
+    </form>
+    <div class="b">
+    <table id="report">
+      <thead>
+        <tr>
+
+          <th>Category</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Price</th>
+          <!-- <th>Total</th> -->
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+</div>
+</div>
+  </body>
+</html>
+
+<script>
+//   var items = [
+//     { name: "Home Application", title: "kettler", description: "good", price: 500 },
+//     { name: "Electronics", title: "mobile", description: "good", price: 6000 },
+//     { name: "Furniture", title: "sofa", description: "good", price: 8000 },
+//   ];
+// to call the previous items from local 
+var items= JSON.parse(localStorage.getItem("products")) || [];
+  document.querySelector("#myForm")
+  .addEventListener("submit", details);
+  displaytable(items);
+  function details(event) {
+    event.preventDefault();
+    var name = document.querySelector("#name").value;
+    var title = document.querySelector("#title").value;
+    var description = document.querySelector("#description").value;
+    var price = document.querySelector("#price").value;
+    var itemdetails = {
+      name: name,
+      title: title,
+      description: description,
+      price: price,
+    };
+    items.push(itemdetails);
+    console.log(items);
+    displaytable(items);
+    // to store the values in local storage .
+    localStorage.setItem("products",JSON.stringify(items));
+  }
+
+  function displaytable(items){
+     document.querySelector("tbody").innerHTML= "";
+    items.map(function (elem) {
+    var row = document.createElement("tr");
+    var col1 = document.createElement("td");
+    col1.innerText = elem.name;
+    var col2 = document.createElement("td");
+    col2.innerText = elem.title;
+    var col3 = document.createElement("td");
+    col3.innerText = elem.description;
+    var col4 = document.createElement("td");
+    col4.innerText = elem.price;
+    row.append(col1, col2, col3, col4);
+    document.querySelector("tbody").append(row);
+  });
+  }
+
+</script>
